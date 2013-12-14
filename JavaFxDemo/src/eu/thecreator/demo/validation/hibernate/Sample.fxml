@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="580.0" prefWidth="724.0" xmlns:fx="http://javafx.com/fxml" fx:controller="eu.thecreator.demo.validation.hibernate.SampleController">
+  <children>
+    <GridPane layoutX="15.0" layoutY="15.0" prefHeight="195.0" prefWidth="495.0">
+      <children>
+        <Label text="Not-Null Validator" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <Label text="Eigener Validator (Info)" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <Label text="Eigener Validator (Warning)" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <Label text="Eigener Validator (Error)" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <Label text="Combobox Validiert" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+        <Label text="Textarea Validiert" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+        <ComboBox fx:id="comboBoxNotNull" GridPane.columnIndex="1" GridPane.rowIndex="5">
+          <items>
+            <FXCollections fx:factory="observableArrayList">
+              <String fx:value="Item 1" />
+              <String fx:value="Item 2" />
+              <String fx:value="Item 3" />
+            </FXCollections>
+          </items>
+        </ComboBox>
+        <TextField fx:id="textFieldNotNull" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <TextField fx:id="customValInfo" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <TextField fx:id="customValWarn" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <TextField fx:id="customValError" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <TextArea fx:id="textAreaFieldNotNull" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+        <Label text="Not Null + Email" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <TextField fx:id="textFieldNotNullEmail" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      </children>
+      <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="247.0" minWidth="10.0" prefWidth="156.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="339.0" minWidth="10.0" prefWidth="339.0" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints maxHeight="183.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="307.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="307.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="362.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="459.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="459.0" minHeight="10.0" prefHeight="26.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="459.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="459.0" minHeight="10.0" prefHeight="13.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+    <Label layoutX="15.0" layoutY="210.0" text="Alle Validierungsnachrichten:" />
+    <TextArea fx:id="textAreaFieldAllMessages" layoutX="15.0" layoutY="236.0" prefHeight="330.0" prefWidth="481.0" wrapText="true" />
+  </children>
+</AnchorPane>
