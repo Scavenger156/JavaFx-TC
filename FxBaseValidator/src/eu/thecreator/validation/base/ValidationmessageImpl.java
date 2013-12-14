@@ -15,17 +15,30 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * Implementierung der Validierung mit Oberflächenfeedback
+ * 
+ * @author Scavenger156
+ * 
+ */
 public class ValidationmessageImpl extends Validationmessage {
-
+	/**
+	 * Kann per System.setProperty(FX_VALIDATION_ERRORIMAGEPATH, imagePath);
+	 * geändert werden
+	 */
 	public static final String FX_VALIDATION_ERRORIMAGEPATH = "fx.validation.errorimagepath";
 	public static final String FX_VALIDATION_WARNINGIMAGEPATH = "fx.validation.warningimagepath";
 	public static final String FX_VALIDATION_INFOIMAGEPATH = "fx.validation.infoimagepath";
+
 	private boolean customValidator = false;
 	private ImageView imageViewForIcon;
 	private static Image imageError;
 	private static Image imageWarn;
 	private static Image imageInfo;
 
+	/**
+	 * Die Bilder initalisieren
+	 */
 	private synchronized void initImages() {
 		if (imageError != null) {
 			return;
@@ -111,7 +124,6 @@ public class ValidationmessageImpl extends Validationmessage {
 		initImages();
 		Image image = imageError;
 		double width = image.getWidth();
-		// Wir wollen nur ein 8*8
 
 		double scale = 13 / width;
 
@@ -150,7 +162,8 @@ public class ValidationmessageImpl extends Validationmessage {
 		ObservableList<Node> list = (ObservableList<Node>) ReflectionUtil.findAndInvokeMethod(p, Parent.class, "getChildren", null, null);
 		list.add(l);
 
-		setValidationTyp(validationTyp);
+		// Bild initaliseren
+		setValidationTyp(ValidationTyp.ERROR);
 
 	}
 }

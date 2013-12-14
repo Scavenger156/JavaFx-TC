@@ -26,37 +26,48 @@ import eu.thecreator.validation.base.Validationmessage;
 import eu.thecreator.validation.hibernate.FxHibernateValidator;
 
 /**
+ * Demo für die Validatoren von Hibernate.
  * 
- * @author andre
+ * @author Scavenger156
+ * 
  */
 public class SampleController implements Initializable, ValidationListener, CustomValidator {
 
+	private static final String VALIDATION_MESSAGE = "Bitte geben sie \"Schön\" ein";
+	private static final String TEXT_TO_CHECK = "Schön";
 	@NotNull
 	@FXML
-	TextField textFieldNotNull;
+	private TextField textFieldNotNull;
 	@NotNull
 	@Email
 	@FXML
-	TextField textFieldNotNullEmail;
+	private TextField textFieldNotNullEmail;
 
 	@FXML
-	TextField customValError;
+	private TextField customValError;
 	@FXML
-	TextField customValWarn;
+	private TextField customValWarn;
 	@FXML
-	TextField customValInfo;
+	private TextField customValInfo;
 
 	@NotNull
 	@FXML
-	ComboBox<String> comboBoxNotNull;
+	private ComboBox<String> comboBoxNotNull;
 	@NotNull
 	@FXML
-	TextArea textAreaFieldNotNull;
+	private TextArea textAreaFieldNotNull;
 
 	@FXML
-	TextArea textAreaFieldAllMessages;
+	private TextArea textAreaFieldAllMessages;
 
 	private FxValidator fXValidator;
+
+	/**
+	 * 
+	 * Konstruktor.
+	 */
+	public SampleController() {
+	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -65,12 +76,14 @@ public class SampleController implements Initializable, ValidationListener, Cust
 		comboBoxNotNull.getItems().add("3");
 		comboBoxNotNull.getItems().add(null);
 
+		// Validator erzeugen
 		fXValidator = new FxHibernateValidator();
 		// Unseren Controller anmelden
-		fXValidator.inspectObject(this);
+		fXValidator.inspectObjectForValidation(this);
 
 		fXValidator.setAdditionalValidator(this);
 		fXValidator.setValidationListener(this);
+		// Diese 3 Felder Validieren wir selber
 		fXValidator.addCustomValidation(customValError);
 		fXValidator.addCustomValidation(customValWarn);
 		fXValidator.addCustomValidation(customValInfo);
@@ -83,16 +96,16 @@ public class SampleController implements Initializable, ValidationListener, Cust
 	public void validate(ValidationResult result) {
 		// Eigener Validator
 		String txt = customValError.getText();
-		if (!"Schön".equals(txt)) {
-			result.addViolation(customValError, "Bitte geben sie \"Schön\" ein", ValidationTyp.ERROR);
+		if (!TEXT_TO_CHECK.equals(txt)) {
+			result.addViolation(customValError, VALIDATION_MESSAGE, ValidationTyp.ERROR);
 		}
 		txt = customValWarn.getText();
-		if (!"Schön".equals(txt)) {
-			result.addViolation(customValWarn, "Bitte geben sie \"Schön\" ein", ValidationTyp.WARNING);
+		if (!TEXT_TO_CHECK.equals(txt)) {
+			result.addViolation(customValWarn, VALIDATION_MESSAGE, ValidationTyp.WARNING);
 		}
 		txt = customValInfo.getText();
-		if (!"Schön".equals(txt)) {
-			result.addViolation(customValInfo, "Bitte geben sie \"Schön\" ein", ValidationTyp.INFO);
+		if (!TEXT_TO_CHECK.equals(txt)) {
+			result.addViolation(customValInfo, VALIDATION_MESSAGE, ValidationTyp.INFO);
 		}
 	}
 

@@ -16,6 +16,13 @@ import javafx.scene.control.ComboBoxBase;
 import javafx.scene.control.Control;
 import javafx.scene.control.TextInputControl;
 
+/**
+ * Basisklasse des Validators. Validierung-Annontations werden gesucht und
+ * Validierungsfehler auf der Oberfläche angezeigt.
+ * 
+ * @author Scavenger156
+ * 
+ */
 public abstract class FxValidator implements InvalidationListener, PropertyChangeListener {
 	private static final Map<Class<? extends Control>, String> CONTROLLHELPER = new HashMap<>();
 	static {
@@ -34,10 +41,20 @@ public abstract class FxValidator implements InvalidationListener, PropertyChang
 	private ValidationListener validationListener;
 	private CustomValidator additionalValidator;
 
+	/**
+	 * 
+	 * Konstruktor.
+	 */
 	public FxValidator() {
 
 	}
 
+	/**
+	 * Wenn eigene UI-Elemente Validiert werden sollen kann in diese Map das
+	 * Property hinzugefügt werden welches Validiert wird.
+	 * 
+	 * @return
+	 */
 	public static Map<Class<? extends Control>, String> getControllhelper() {
 		return CONTROLLHELPER;
 	}
@@ -46,17 +63,37 @@ public abstract class FxValidator implements InvalidationListener, PropertyChang
 		this.validationListener = validationListener;
 	}
 
+	/**
+	 * 
+	 * @param additionalValidator
+	 *            Eigener Valididator
+	 */
 	public void setAdditionalValidator(CustomValidator additionalValidator) {
 		this.additionalValidator = additionalValidator;
 	}
 
-	protected abstract void validate(ValidationmessageImpl toValidate, ValidationResult result);
+	/**
+	 * Validiert ein Feld
+	 * 
+	 * @param toValidate
+	 *            zu Validierendes Objekt
+	 * @param result
+	 *            Hier werden die Fehler gesammelt
+	 */
+	protected abstract void validate(Validationmessage toValidate, ValidationResult result);
 
+	/**
+	 * Hauptmethode die alles Validiert.
+	 * 
+	 * @return Ergebniss der Validierung.
+	 */
 	public ValidationResult validate() {
 		clearValidation();
 		ValidationResult result = new ValidationResult(this.validateHelpers);
 		for (ValidationmessageImpl validateHelper : validateHelpers) {
 			if (validateHelper.isCustomValidator()) {
+				// Eigene Validatoren werden später mit dem
+				// "additionalValidator" geprüft
 				continue;
 			}
 			validate(validateHelper, result);
@@ -169,6 +206,11 @@ public abstract class FxValidator implements InvalidationListener, PropertyChang
 		validate();
 	}
 
+	/**
+	 * Liefert die Basisannontation die die Validierungsannontation haben muss.
+	 * 
+	 * @return Annontation der Validierungsannontation.
+	 */
 	protected abstract List<Class<? extends Annotation>> getValidationAnnontations();
 
 	/**
@@ -179,7 +221,7 @@ public abstract class FxValidator implements InvalidationListener, PropertyChang
 	 *            Zu Analysierendes Objekt
 	 */
 	@SuppressWarnings("unchecked")
-	public final void inspectObject(final Object controller) {
+	public final void inspectObjectForValidation(final Object controller) {
 
 		List<Class<? extends Annotation>> annontationsToCheck = getValidationAnnontations();
 

@@ -18,18 +18,30 @@ import javax.validation.groups.Default;
 
 import eu.thecreator.validation.base.FxValidator;
 import eu.thecreator.validation.base.ValidationResult;
-import eu.thecreator.validation.base.ValidationmessageImpl;
+import eu.thecreator.validation.base.Validationmessage;
 
+/**
+ * Konkrete Implementierung des Validators für Hibernate und Beansvalidation
+ * 
+ * @author Scavenger156
+ * 
+ */
 public class FxHibernateValidator extends FxValidator {
 	private Validator validator;
 
+	/**
+	 * 
+	 * Konstruktor.
+	 */
 	public FxHibernateValidator() {
+		// beansbinding Validator initalisieren.
 		ValidatorFactory fact = Validation.buildDefaultValidatorFactory();
 		validator = fact.getValidator();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	protected void validate(ValidationmessageImpl toValidate, ValidationResult result) {
+	protected void validate(Validationmessage toValidate, ValidationResult result) {
 		// validieren des Objektes durchführen
 		Set<ConstraintViolation<?>> constraintViolations = new HashSet<>();
 		// Unterschied ob ein Property, ein FX Element oder ein Textvo
@@ -45,9 +57,6 @@ public class FxHibernateValidator extends FxValidator {
 			Set<?> validationMessages = validator.validateValue(toValidate.getController().getClass(), toValidate.getField().getName(), value, new Class[0]);
 
 			constraintViolations.addAll((Collection<? extends ConstraintViolation<?>>) validationMessages);
-		} else if (toValidate.getController() != null) {
-			// Kann eigentlich nicht vorkommen da wir immer ein Porperty
-			// haben
 		} else {
 			Set<ConstraintViolation<Object>> validationMessages = validator.validateProperty(toValidate.getController(), toValidate.getField().getName(),
 					Default.class);

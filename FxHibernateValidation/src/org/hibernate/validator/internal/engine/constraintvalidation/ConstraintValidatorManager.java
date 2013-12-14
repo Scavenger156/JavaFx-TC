@@ -42,7 +42,7 @@ import org.hibernate.validator.internal.util.logging.LoggerFactory;
  * @author Hardy Ferentschik
  */
 public class ConstraintValidatorManager {
-	private static final Log log = LoggerFactory.make();
+	private static final Log LOG = LoggerFactory.make();
 
 	/**
 	 * The explicit or implicit default constraint validator factory. We always cache {@code ConstraintValidator} instances
@@ -108,7 +108,7 @@ public class ConstraintValidatorManager {
 			);
 		}
 		else {
-			log.tracef( "Constraint validator %s found in cache.", constraintValidator );
+			LOG.tracef( "Constraint validator %s found in cache.", constraintValidator );
 		}
 
 		return constraintValidator;
@@ -143,7 +143,7 @@ public class ConstraintValidatorManager {
 				validatorClass
 		);
 		if ( constraintValidator == null ) {
-			throw log.getConstraintFactoryMustNotReturnNullException( validatorClass.getName() );
+			throw LOG.getConstraintFactoryMustNotReturnNullException( validatorClass.getName() );
 		}
 		initializeConstraint( descriptor, constraintValidator );
 		return constraintValidator;
@@ -200,7 +200,7 @@ public class ConstraintValidatorManager {
 	private void verifyResolveWasUnique(ConstraintDescriptorImpl<?> descriptor, Type valueClass, List<Type> assignableClasses) {
 		if ( assignableClasses.size() == 0 ) {
 			if ( descriptor.getConstraintType() == ConstraintType.CROSS_PARAMETER ) {
-				throw log.getValidatorForCrossParameterConstraintMustEitherValidateObjectOrObjectArrayException(
+				throw LOG.getValidatorForCrossParameterConstraintMustEitherValidateObjectOrObjectArrayException(
 						descriptor.getAnnotationType()
 								.getName()
 				);
@@ -216,7 +216,7 @@ public class ConstraintValidatorManager {
 						className = clazz.getName();
 					}
 				}
-				throw log.getNoValidatorFoundForTypeException( className );
+				throw LOG.getNoValidatorFoundForTypeException( className );
 			}
 		}
 		else if ( assignableClasses.size() > 1 ) {
@@ -226,7 +226,7 @@ public class ConstraintValidatorManager {
 				builder.append( ", " );
 			}
 			builder.delete( builder.length() - 2, builder.length() );
-			throw log.getMoreThanOneValidatorFoundForTypeException( valueClass, builder.toString() );
+			throw LOG.getMoreThanOneValidatorFoundForTypeException( valueClass, builder.toString() );
 		}
 	}
 
@@ -249,7 +249,7 @@ public class ConstraintValidatorManager {
 			constraintValidator.initialize( descriptor.getAnnotation() );
 		}
 		catch ( RuntimeException e ) {
-			throw log.getUnableToInitializeConstraintValidatorException( constraintValidator.getClass().getName(), e );
+			throw LOG.getUnableToInitializeConstraintValidatorException( constraintValidator.getClass().getName(), e );
 		}
 	}
 
