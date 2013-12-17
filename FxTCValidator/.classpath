@@ -4,7 +4,5 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/FxBase"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/FxBaseValidator"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/FxHibernateValidation"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/FxTCValidator"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
