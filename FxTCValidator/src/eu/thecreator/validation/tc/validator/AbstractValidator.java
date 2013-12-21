@@ -1,6 +1,8 @@
 package eu.thecreator.validation.tc.validator;
 
-public abstract class AbstractValidator<T> {
+import java.lang.annotation.Annotation;
+
+public abstract class AbstractValidator<T, A extends Annotation> {
 	private Class<?> validatorClass;
 
 	public AbstractValidator() {
@@ -10,7 +12,7 @@ public abstract class AbstractValidator<T> {
 
 	protected abstract Class<?> getValidationTyp();
 
-	public abstract boolean isValid(T value);
+	public abstract boolean isValid(T value, A annontation);
 
 	public boolean acceptObjectType(Object value) {
 		if (value == null) {

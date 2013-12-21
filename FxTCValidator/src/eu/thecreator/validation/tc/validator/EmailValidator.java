@@ -3,7 +3,9 @@ package eu.thecreator.validation.tc.validator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class EmailValidator extends AbstractValidator<String> {
+import eu.thecreator.validation.tc.annontation.Email;
+
+public class EmailValidator extends AbstractValidator<String, Email> {
 	private Pattern pattern;
 	private Matcher matcher;
 
@@ -20,7 +22,7 @@ public class EmailValidator extends AbstractValidator<String> {
 	}
 
 	@Override
-	public boolean isValid(String value) {
+	public boolean isValid(String value, Email annonatation) {
 		if (value == null) {
 			return false;
 		}

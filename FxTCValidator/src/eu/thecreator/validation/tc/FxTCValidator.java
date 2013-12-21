@@ -11,7 +11,7 @@ import java.util.Set;
 import javafx.scene.control.SelectionModel;
 import eu.thecreator.validation.base.ReflectionUtil;
 import eu.thecreator.validation.base.ValidationResult;
-import eu.thecreator.validation.base.Validationmessage;
+import eu.thecreator.validation.base.ValidationmessageAnnontations;
 import eu.thecreator.validation.tc.annontation.Email;
 import eu.thecreator.validation.tc.annontation.NotNull;
 import eu.thecreator.validation.tc.annontation.Validator;
@@ -20,7 +20,7 @@ import eu.thecreator.validation.tc.validator.EmailValidator;
 import eu.thecreator.validation.tc.validator.NotNullValdiator;
 
 public class FxTCValidator extends eu.thecreator.validation.base.FxValidator {
-	private Map<Class<? extends Annotation>, AbstractValidator<?>> validatoren = new HashMap<>();
+	private Map<Class<? extends Annotation>, AbstractValidator<?, ?>> validatoren = new HashMap<>();
 
 	protected void registerDefaultValidatoren() {
 		validatoren.put(NotNull.class, new NotNullValdiator());
@@ -32,19 +32,22 @@ public class FxTCValidator extends eu.thecreator.validation.base.FxValidator {
 	}
 
 	@Override
-	protected void validate(Validationmessage toValidate, ValidationResult result) {
-		Annotation[] annontations = toValidate.getField().getAnnotations();
+	protected void validate(ValidationmessageAnnontations toValidate, ValidationResult result) {
+		List<Annotation> annontations = toValidate.getValidationAnnontations();
 		Set<String> errors = new HashSet<>();
 		for (Annotation annotation : annontations) {
 			if (annotation.annotationType().getAnnotation(Validator.class) != null) {
 				@SuppressWarnings("unchecked")
-				AbstractValidator<Object> validator = (AbstractValidator<Object>) validatoren.get(annotation.annotationType());
+				AbstractValidator<Object, Annotation> validator = (AbstractValidator<Object, Annotation>) validatoren.get(annotation.annotationType());
+				if (validator == null) {
+					throw new IllegalArgumentException("Validator nicht gefunden:" + annotation.annotationType());
+				}
 				Object value = null;
 
 				if (toValidate.getFxProperty() != null) {
 					value = toValidate.getFxProperty().getValue();
 					if (value instanceof String) {
-						if (value.toString().trim().length() == 0) {
+						if (((String) value).length() == 0) {
 							value = null;
 						}
 					} else if (value instanceof SelectionModel) {
@@ -53,9 +56,8 @@ public class FxTCValidator extends eu.thecreator.validation.base.FxValidator {
 
 				} else {
 					value = ReflectionUtil.getFromField(toValidate.getField(), toValidate.getController());
-
 				}
-				if (validator.acceptObjectType(value) && !validator.isValid(value)) {
+				if (validator.acceptObjectType(value) && !validator.isValid(value, annotation)) {
 					errors.add(validator.getValidationMessage());
 				}
 

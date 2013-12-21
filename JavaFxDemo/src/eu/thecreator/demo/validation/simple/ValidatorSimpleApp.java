@@ -1,4 +1,4 @@
-package eu.thecreator.demo.validation.tc;
+package eu.thecreator.demo.validation.simple;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,17 +7,17 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Demo für die Validatoren von Hibernate.
+ * Demo für die Validatoren ohne Annontations.
  * 
  * @author Scavenger156
  * 
  */
-public class ValidatorTCApp extends Application {
+public class ValidatorSimpleApp extends Application {
 	/**
 	 * 
 	 * Konstruktor.
 	 */
-	public ValidatorTCApp() {
+	public ValidatorSimpleApp() {
 
 	}
 

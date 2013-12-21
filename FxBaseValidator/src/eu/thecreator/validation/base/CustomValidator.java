@@ -7,7 +7,12 @@ package eu.thecreator.validation.base;
  * 
  */
 public interface CustomValidator {
-
+	/**
+	 * Validierung durchführen
+	 * 
+	 * @param validationResultCustom
+	 *            Das Ergebniss der Validierung
+	 */
 	void validate(ValidationResult validationResultCustom);
 
 }

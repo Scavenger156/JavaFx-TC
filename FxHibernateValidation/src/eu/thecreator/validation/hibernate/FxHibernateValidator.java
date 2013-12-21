@@ -18,7 +18,7 @@ import javax.validation.groups.Default;
 
 import eu.thecreator.validation.base.FxValidator;
 import eu.thecreator.validation.base.ValidationResult;
-import eu.thecreator.validation.base.Validationmessage;
+import eu.thecreator.validation.base.ValidationmessageAnnontations;
 
 /**
  * Konkrete Implementierung des Validators für Hibernate und Beansvalidation
@@ -41,7 +41,7 @@ public class FxHibernateValidator extends FxValidator {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void validate(Validationmessage toValidate, ValidationResult result) {
+	protected void validate(ValidationmessageAnnontations toValidate, ValidationResult result) {
 		// validieren des Objektes durchführen
 		Set<ConstraintViolation<?>> constraintViolations = new HashSet<>();
 		// Unterschied ob ein Property, ein FX Element oder ein Textvo
