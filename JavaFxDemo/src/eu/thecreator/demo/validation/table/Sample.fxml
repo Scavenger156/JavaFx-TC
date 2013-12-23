@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="380.0" prefWidth="576.0" xmlns:fx="http://javafx.com/fxml" fx:controller="eu.thecreator.demo.validation.table.SampleController">
+  <children>
+    <TableView fx:id="mytableView" editable="true" prefHeight="380.0" prefWidth="576.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <columns>
+        <TableColumn prefWidth="75.0" text="Boolean" fx:id="col1" />
+        <TableColumn prefWidth="75.0" text="Texte" fx:id="col2" />
+      </columns>
+    </TableView>
+  </children>
+</AnchorPane>
