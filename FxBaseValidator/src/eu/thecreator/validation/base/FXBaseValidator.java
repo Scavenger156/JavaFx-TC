@@ -38,7 +38,7 @@ public class FXBaseValidator implements InvalidationListener, PropertyChangeList
 	 */
 	protected List<ValidationmessageImpl> validateHelpers = new ArrayList<>();
 	private ValidationListener validationListener;
-	private CustomValidator additionalValidator;
+	private List<CustomValidator> additionalValidator = new ArrayList<>();
 
 	/**
 	 * 
@@ -68,7 +68,17 @@ public class FXBaseValidator implements InvalidationListener, PropertyChangeList
 	 *            Eigener Valididator
 	 */
 	public void setAdditionalValidator(CustomValidator additionalValidator) {
-		this.additionalValidator = additionalValidator;
+		this.additionalValidator.clear();
+		this.additionalValidator.add(additionalValidator);
+	}
+
+	/**
+	 * 
+	 * @param additionalCustomValidator
+	 *            zusätzlicher Validator
+	 */
+	public void addAdditionalValidator(CustomValidator additionalCustomValidator) {
+		this.additionalValidator.add(additionalCustomValidator);
 	}
 
 	/**
@@ -165,10 +175,13 @@ public class FXBaseValidator implements InvalidationListener, PropertyChangeList
 		}
 		// Zusätzliche Validierung
 		if (additionalValidator != null) {
-			ValidationResult validationResultCustom = new ValidationResult(this.validateHelpers);
-			additionalValidator.validate(validationResultCustom);
+			for (CustomValidator validator : additionalValidator) {
+				ValidationResult validationResultCustom = new ValidationResult(this.validateHelpers);
+				validator.validate(validationResultCustom);
 
-			result.getMessages().addAll(validationResultCustom.getMessages());
+				result.getMessages().addAll(validationResultCustom.getMessages());
+			}
+
 		}
 
 		provideFeedbackForUI(result);

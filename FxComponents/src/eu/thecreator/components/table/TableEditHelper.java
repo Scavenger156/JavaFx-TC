@@ -7,14 +7,14 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 /**
- * Hilfsklasse für Tabellen
+ * Hilfsklasse für Tabellen um das Händling zu verbessern
  * 
  * @author Scavenger156
  * 
  * @param <S>
  *            VO Typ
  */
-public class TableEditHelper<S> {
+public final class TableEditHelper<S> {
 
 	private TableView<S> table;
 
@@ -25,9 +25,13 @@ public class TableEditHelper<S> {
 	 * @param table
 	 *            die zu verbessernde Tabelle
 	 */
-	public TableEditHelper(TableView<S> table) {
+	private TableEditHelper(TableView<S> table) {
 		super();
 		this.table = table;
+	}
+
+	public static void install(TableView<?> toEnhance) {
+		new TableEditHelper<>(toEnhance).init();
 	}
 
 	/**

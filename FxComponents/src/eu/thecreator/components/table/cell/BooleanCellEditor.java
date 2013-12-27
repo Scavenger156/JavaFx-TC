@@ -6,15 +6,16 @@ package eu.thecreator.components.table.cell;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableStringValue;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TablePosition;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -24,7 +25,7 @@ import javafx.scene.input.MouseEvent;
  * 
  * @param <S>
  */
-public class BooleanCellEditor<S extends Object> extends TableCell<S, Boolean> {
+public class BooleanCellEditor<S extends Object> extends BaseTableCell<S, Boolean> {
 
 	private CheckBox checkBox;
 
@@ -55,6 +56,14 @@ public class BooleanCellEditor<S extends Object> extends TableCell<S, Boolean> {
 		this.setGraphic(checkBox);
 		this.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 		this.setEditable(true);
+	}
+
+	@Override
+	protected void bindTooltip(ObservableStringValue tip) {
+		if (checkBox.getTooltip() == null) {
+			checkBox.setTooltip(new Tooltip());
+		}
+		checkBox.getTooltip().textProperty().bind(tip);
 	}
 
 	@Override

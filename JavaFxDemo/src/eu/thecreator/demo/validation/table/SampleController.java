@@ -18,12 +18,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import javafx.util.converter.DefaultStringConverter;
 import eu.thecreator.components.table.TableEditHelper;
-import eu.thecreator.components.table.cell.BooleanCellEditor;
-import eu.thecreator.components.table.cell.TextFieldCellEditor;
 import eu.thecreator.demo.common.vo.TestVO;
+import eu.thecreator.validation.base.ValidationTyp;
+import eu.thecreator.validation.base.Violation;
+import eu.thecreator.validation.base.table.cell.TextFieldCellEditorIconFeedback;
+import eu.thecreator.validation.base.table.cell.TextFieldCellEditorIconFeedback.CellFeedback;
 
 /**
- * Demo für die Validatoren in einer Tabellenzelle.
+ * Demo für das Feedback in einer Tabellenzelle.
  * 
  * @author Scavenger156
  * 
@@ -31,10 +33,11 @@ import eu.thecreator.demo.common.vo.TestVO;
 public class SampleController implements Initializable {
 	@FXML
 	private TableView<TestVO> mytableView;
+
 	@FXML
-	private TableColumn<TestVO, Boolean> col1;
+	private TableColumn<TestVO, String> colFeedback;
 	@FXML
-	private TableColumn<TestVO, String> col2;
+	private TableColumn<TestVO, String> colText;
 	private ObservableList<TestVO> data;
 
 	/**
@@ -46,33 +49,55 @@ public class SampleController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		col1.setCellValueFactory(new PropertyValueFactory<TestVO, Boolean>("bool"));
-		col2.setCellValueFactory(new PropertyValueFactory<TestVO, String>("zeichenkette"));
 
-		col2.setCellFactory(new Callback<TableColumn<TestVO, String>, TableCell<TestVO, String>>() {
+		colFeedback.setCellValueFactory(new PropertyValueFactory<TestVO, String>("zeichenkette"));
+		colText.setCellValueFactory(new PropertyValueFactory<TestVO, String>("zeichenkette"));
+
+		final MyCellFeedback feedback = new MyCellFeedback();
+
+		colFeedback.setCellFactory(new Callback<TableColumn<TestVO, String>, TableCell<TestVO, String>>() {
 
 			@Override
 			public TableCell<TestVO, String> call(TableColumn<TestVO, String> param) {
-				return new TextFieldCellEditor<TestVO, String>(new DefaultStringConverter());
+				TextFieldCellEditorIconFeedback<TestVO, String> tfe = new TextFieldCellEditorIconFeedback<>(new DefaultStringConverter());
+				tfe.setFeedback(feedback);
+
+				return tfe;
 
 			}
 		});
 
-		col1.setCellFactory(new Callback<TableColumn<TestVO, Boolean>, TableCell<TestVO, Boolean>>() {
-			@Override
-			public TableCell<TestVO, Boolean> call(TableColumn<TestVO, Boolean> p) {
-				return new BooleanCellEditor<>();
-			}
-		});
+		TableEditHelper.install(mytableView);
 
-		TableEditHelper<TestVO> helper = new TableEditHelper<>(mytableView);
-		helper.init();
 		data = FXCollections.observableArrayList();
-		data.add(new TestVO());
-		data.add(new TestVO());
+		data.add(new TestVO("123"));
+		data.add(new TestVO("schön"));
 		mytableView.setItems(data);
 
-		// TODO Validatoren
 	}
 
+	/**
+	 * Internes Fedback zu Tabellenzellen.
+	 * 
+	 * @author Scavenger156
+	 * 
+	 */
+	private class MyCellFeedback implements CellFeedback<TestVO, String> {
+		/**
+		 * 
+		 * Konstruktor.
+		 */
+		public MyCellFeedback() {
+		}
+
+		@Override
+		public Violation validateValue(String value, TableCell<TestVO, String> cell) {
+
+			if (!"Schön".equalsIgnoreCase(value)) {
+				return new Violation("Bitte geben sie schön ein", ValidationTyp.ERROR);
+			}
+			return null;
+		}
+
+	}
 }

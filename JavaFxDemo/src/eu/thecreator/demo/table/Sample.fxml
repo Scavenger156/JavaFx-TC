@@ -8,12 +8,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="380.0" prefWidth="576.0" xmlns:fx="http://javafx.com/fxml" fx:controller="eu.thecreator.demo.validation.table.SampleController">
+<AnchorPane id="AnchorPane" prefHeight="380.0" prefWidth="576.0" xmlns:fx="http://javafx.com/fxml" fx:controller="eu.thecreator.demo.table.SampleController">
   <children>
     <TableView fx:id="mytableView" editable="true" prefHeight="380.0" prefWidth="576.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <columns>
-        <TableColumn prefWidth="125.0" text="Spalte mit Feedback" fx:id="colFeedback" />
-        <TableColumn prefWidth="110.0" text="Text ohne Feedback" fx:id="colText" />
+        <TableColumn prefWidth="125.0" text="Boolean" fx:id="colBoolean" />
+        <TableColumn prefWidth="110.0" text="Texte" fx:id="colText" />
+        <TableColumn prefWidth="100.0" text="Boolean Tooltip" fx:id="colBooleanTooltip" />
+        <TableColumn prefWidth="125.0" text="Text Tooltip" fx:id="colTextTooltip" />
       </columns>
     </TableView>
   </children>

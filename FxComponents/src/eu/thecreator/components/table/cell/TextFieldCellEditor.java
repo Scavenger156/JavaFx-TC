@@ -6,7 +6,6 @@ import javafx.beans.Observable;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TablePosition;
@@ -26,13 +25,12 @@ import javafx.util.StringConverter;
  * @param <T>
  *            Typ
  */
-public class TextFieldCellEditor<S, T> extends TableCell<S, T> {
+public class TextFieldCellEditor<S, T> extends BaseTableCell<S, T> {
 
-	private StringConverter<T> converter;
-	private TextField textField;
-
+	protected StringConverter<T> converter;
+	protected TextField textField;
 	private boolean replaceOnEdit = false;
-	private boolean listenerActive = false;
+	protected boolean listenerActive = false;
 	/**
 	 * Dieser Händler aktiviert das Editieren wenn mit der Maus geklickt wurde.
 	 */
@@ -105,6 +103,7 @@ public class TextFieldCellEditor<S, T> extends TableCell<S, T> {
 		if (converter == null) {
 			throw new IllegalArgumentException("converter is null");
 		}
+
 	}
 
 	@Override
@@ -114,11 +113,11 @@ public class TextFieldCellEditor<S, T> extends TableCell<S, T> {
 		if (i == -1) {
 			// Bei -1 ist die Zelle nicht mehr gültig
 			getTableView().removeEventHandler(KeyEvent.KEY_PRESSED, haendlerKeys);
-			getTableView().removeEventHandler(MouseEvent.MOUSE_CLICKED, haendlerMouse);
+			getTableView().removeEventHandler(MouseEvent.MOUSE_RELEASED, haendlerMouse);
 			listenerActive = false;
 		} else if (!listenerActive) {
 			getTableView().addEventHandler(KeyEvent.KEY_PRESSED, haendlerKeys);
-			getTableView().addEventHandler(MouseEvent.MOUSE_CLICKED, haendlerMouse);
+			getTableView().addEventHandler(MouseEvent.MOUSE_RELEASED, haendlerMouse);
 			listenerActive = true;
 		}
 	}
@@ -145,6 +144,7 @@ public class TextFieldCellEditor<S, T> extends TableCell<S, T> {
 			// Lazy
 			buildEditComponent();
 		}
+
 		textField.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
 		setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 
@@ -207,14 +207,12 @@ public class TextFieldCellEditor<S, T> extends TableCell<S, T> {
 		super.cancelEdit();
 		// Textzurücksetzen
 		setText(converter.toString(getItem()));
-		// Textfeld ausblenden
-		setContentDisplay(ContentDisplay.TEXT_ONLY);
+		finishEdit();
 	}
 
 	@Override
 	public void commitEdit(T newValue) {
 		super.commitEdit(newValue);
-		setContentDisplay(ContentDisplay.TEXT_ONLY);
 		updateItem(newValue, false);
 		// Event feueren damit es auch im Property landet!
 		TablePosition<S, T> pos = new TablePosition<>(getTableView(), getIndex(), getTableColumn());
@@ -223,6 +221,12 @@ public class TextFieldCellEditor<S, T> extends TableCell<S, T> {
 		TableColumn.CellEditEvent<S, T> event = new CellEditEvent<>(getTableView(), pos, evt, newValue);
 
 		getTableColumn().getOnEditCommit().handle(event);
+		finishEdit();
+	}
+
+	protected void finishEdit() {
+		// Textfeld ausblenden
+		setContentDisplay(ContentDisplay.TEXT_ONLY);
 	}
 
 	@Override
