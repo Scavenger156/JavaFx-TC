@@ -10,4 +10,7 @@ Projektübersicht
 JavaFxDemo
 ----------
 Demoklassen zum Starten:
--eu.thecreator.demo.validation.hibernate.ValidatorHibernateApp
+-Validierung per Hibernate
+-Eigene Annontations zum Validieren von Oberflächen
+-Bessere Tabelleneditoren
+-Validierung innerhalb von Tabellenzellen
