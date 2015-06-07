@@ -12,7 +12,7 @@ public class Main {
 		System.err.println(new Main());
 		// Exprected: toString() changed
 		System.err.println(new XT());
-		// Funktioniert nicht
-		// System.err.println(new XT().test());
+		// Funktioniert in Eclipse nur so:
+		System.err.println(new XT().test());
 	}
 }
